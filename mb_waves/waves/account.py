@@ -26,3 +26,7 @@ def check_private_key(address: str, private_key: str) -> bool:
         return acc.address == address
     except Exception:  # noqa
         return False
+
+
+def is_valid_address(address: str) -> bool:
+    return pw.validateAddress(address)
