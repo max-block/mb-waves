@@ -18,3 +18,11 @@ def generate_new_account() -> NewAccount:
 def get_address_from_private_key(private_key: str) -> str:
     acc = pw.Address(privateKey=private_key)
     return acc.address
+
+
+def check_private_key(address: str, private_key: str) -> bool:
+    try:
+        acc = pw.Address(privateKey=private_key)
+        return acc.address == address
+    except Exception:  # noqa
+        return False

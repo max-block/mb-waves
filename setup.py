@@ -46,6 +46,6 @@ setuptools.setup(
             "pip-audit==1.1.2",
         ],
     },
-    entry_points={"console_scripts": ["mb-waves = mb_waves.cli:cli"]},
+    entry_points={"console_scripts": ["mb-waves = mb_waves.cli.cmd:cli"]},
     include_package_data=True,
 )
