@@ -48,7 +48,7 @@ def get_ticker(pair: pw.AssetPair) -> Result[dict[str, Any]]:
         return Result.new_error(str(e))
 
 
-def get_orders(private_key: str, pair: pw.AssetPair) -> Result[dict]:
+def get_orders(private_key: str, pair: pw.AssetPair) -> Result[list[dict]]:
     acc = pw.Address(privateKey=private_key)
     try:
         return Result.new_ok(acc.getOrderHistory(pair))

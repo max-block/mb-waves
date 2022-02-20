@@ -31,7 +31,7 @@ setuptools.setup(
     python_requires=">=3.10",
     packages=["mb_waves"],
     install_requires=[
-        "click~=8.0.1",
+        "click~=8.0.4",
         "click-aliases~=1.0.1",
         "PyWaves==0.8.42",
         "mb-std~=0.3",
@@ -43,7 +43,7 @@ setuptools.setup(
             "pre-commit==2.17.0",
             "wheel==0.37.1",
             "twine==3.8.0",
-            "pip-audit==1.1.2",
+            "pip-audit==2.0.0",
         ],
     },
     entry_points={"console_scripts": ["mb-waves = mb_waves.cli.cmd:cli"]},
