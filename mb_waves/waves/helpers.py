@@ -2,7 +2,7 @@ from decimal import Decimal
 from typing import Any, Literal
 
 import pywaves as pw
-from mb_std import Result
+from mb_std import Result, md
 
 
 def send_waves(private_key: str, recipient: str, amount: int) -> Result[str]:
@@ -29,15 +29,18 @@ def send_asset(private_key: str, recipient: str, asset_id: str, amount: int) -> 
 
 def place_order(private_key: str, side: Literal["sell", "buy"], pair: pw.AssetPair, amount: int, price: Decimal) -> Result[str]:
     acc = pw.Address(privateKey=private_key)
+    res_str = ""
     try:
-        res: pw.Order
         if side == "sell":
             res = acc.sell(pair, amount, price)
         else:
             res = acc.buy(pair, amount, price)
-        return Result.new_ok(res.orderId)
+        res_str = str(res)
+        if res == -1:
+            return Result.new_error("-1")
+        return Result.new_ok(res.orderId, md(res_str))
     except Exception as e:
-        return Result.new_error(str(e))
+        return Result.new_error(str(e), md(res_str))
 
 
 def get_ticker(pair: pw.AssetPair) -> Result[dict[str, Any]]:
