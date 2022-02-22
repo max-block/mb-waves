@@ -27,14 +27,21 @@ def send_asset(private_key: str, recipient: str, asset_id: str, amount: int) -> 
         return Result.new_error(str(e))
 
 
-def place_order(private_key: str, side: Literal["sell", "buy"], pair: pw.AssetPair, amount: int, price: Decimal) -> Result[str]:
+def place_order(
+    private_key: str,
+    side: Literal["sell", "buy"],
+    pair: pw.AssetPair,
+    amount: int,
+    price: Decimal,
+    matcher_fee: int = 1000000,
+) -> Result[str]:
     acc = pw.Address(privateKey=private_key)
     res_str = ""
     try:
         if side == "sell":
-            res = acc.sell(pair, amount, price)
+            res = acc.sell(pair, amount, price, matcherFee=matcher_fee)
         else:
-            res = acc.buy(pair, amount, price)
+            res = acc.buy(pair, amount, price, matcherFee=matcher_fee)
         res_str = str(res)
         if res == -1:
             return Result.new_error("-1")
