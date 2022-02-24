@@ -33,19 +33,23 @@ def place_order(
     pair: pw.AssetPair,
     amount: int,
     price: Decimal,
-    matcher_fee: int = 1000000,
+    matcher_fee: int | None = None,
 ) -> Result[str]:
     acc = pw.Address(privateKey=private_key)
+    fee_calc = pw.WXFeeCalculator()
     res_str = ""
     try:
         if side == "sell":
+            if matcher_fee is None:
+                matcher_fee = fee_calc.calculatePercentSellingFee(pair.asset2.assetId, pair.asset1.assetId, amount)
             res = acc.sell(pair, amount, price, matcherFee=matcher_fee)
         else:
+            # TODO: calc catcher_fee
             res = acc.buy(pair, amount, price, matcherFee=matcher_fee)
         res_str = str(res)
         if res == -1:
             return Result.new_error("-1")
-        return Result.new_ok(res.orderId, md(res_str))
+        return Result.new_ok(res.orderId, md(res_str, matcher_fee))
     except Exception as e:
         return Result.new_error(str(e), md(res_str))
 
